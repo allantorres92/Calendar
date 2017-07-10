@@ -33,24 +33,39 @@ var Calendar = React.createClass({
       var maxDate = this.state.maxDate;
 
       numberofCalendars = maxDate.getMonth()-minDate.getMonth()+1;
-      console.log(12%11);
+
+      var diff = new Date(maxDate.getTime() - minDate.getTime());
+      console.log('yteras');
+      yearsdifference = maxDate.getFullYear()-minDate.getFullYear();
+
+      console.log(yearsdifference); // Gives difference as year
+      console.log('meses');
+      console.log(diff.getUTCMonth()); // Gives month count of difference
+
 
       var rows = [];
       for (var i=0; i < numberofCalendars; i++) {
-        rows.push(i);
+        rows.push({
+          value:i,
+          nextyear:1
+        });
       }
 
         return (
           <div>
-            {rows.map(item => (
-              <div className="r-calendar">
-                <div className="r-inner">
-                  <Header monthNames={this.state.monthNamesFull} month={this.state.month+item} year={this.state.year} />
-                  <WeekDays dayNames={this.state.dayNames} startDay={this.state.startDay} weekNumbers={this.state.weekNumbers} />
-                  <MonthDates month={this.state.month+item} year={this.state.year} daysInMonth={this.state.daysInMonth} firstOfMonth={this.state.firstOfMonth} startDay={this.state.startDay} onSelect={this.selectDate} weekNumbers={this.state.weekNumbers} disablePast={this.state.disablePast} minDate={this.state.minDate} maxDate={this.state.maxDate} />
+            {rows.map(item => {
+              var firstOfMonth = new Date(this.state.year, this.state.month+item.value, 1);
+              var daysInMonth = new Date(this.state.year, this.state.month+item.value + 1, 0).getDate()
+              return(
+                <div className="r-calendar">
+                  <div className="r-inner">
+                    <Header monthNames={this.state.monthNamesFull} month={this.state.month+item.value} year={this.state.year} />
+                    <WeekDays dayNames={this.state.dayNames} startDay={this.state.startDay} weekNumbers={this.state.weekNumbers} />
+                    <MonthDates month={this.state.month+item.value} year={this.state.year} daysInMonth={daysInMonth} firstOfMonth={firstOfMonth} startDay={this.state.startDay} onSelect={this.selectDate} weekNumbers={this.state.weekNumbers} disablePast={this.state.disablePast} minDate={this.state.minDate} maxDate={this.state.maxDate} />
                   </div>
-                  </div>
-                ))
+                </div>
+              );
+            })
 
             }
             </div>
@@ -75,17 +90,17 @@ var WeekDays = React.createClass({
             haystack = Array.apply(null, {length: 7}).map(Number.call, Number);
         return (
             <div className="r-row r-weekdays">
-                {(() => {
-                    if (that.props.weekNumbers) {
-                        return (
-                            <div className="r-cell r-weeknum">wn</div>
-                        );
-                    }
-                })()}
-                {haystack.map(function (item, i) {
-                    return (
-                        <div className="r-cell">{that.props.dayNames[(that.props.startDay + i) % 7]}</div>
-                    );
+              {(() => {
+                if (that.props.weekNumbers) {
+                  return (
+                    <div className="r-cell r-weeknum">wn</div>
+                  );
+                }
+              })()}
+              {haystack.map(function (item, i) {
+                return (
+                  <div className="r-cell">{that.props.dayNames[(that.props.startDay + i) % 7]}</div>
+                );
                 })}
             </div>
         );
