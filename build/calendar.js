@@ -31,17 +31,12 @@ var Calendar = React.createClass({
   render: function () {
     var minDate = this.state.minDate;
     var maxDate = this.state.maxDate;
+    var months;
 
-    numberofCalendars = maxDate.getMonth() - minDate.getMonth() + 1;
-
-    var diff = new Date(maxDate.getTime() - minDate.getTime());
-    console.log('yteras');
-    yearsdifference = maxDate.getFullYear() - minDate.getFullYear();
-
-    console.log(yearsdifference); // Gives difference as year
-    console.log('meses');
-    console.log(diff.getUTCMonth()); // Gives month count of difference
-
+    months = (maxDate.getFullYear() - minDate.getFullYear()) * 12;
+    months -= minDate.getMonth() + 1;
+    months += maxDate.getMonth();
+    numberofCalendars = months + 2;
 
     var rows = [];
     for (var i = 0; i < numberofCalendars; i++) {
@@ -57,13 +52,14 @@ var Calendar = React.createClass({
       rows.map(item => {
         var firstOfMonth = new Date(this.state.year, this.state.month + item.value, 1);
         var daysInMonth = new Date(this.state.year, this.state.month + item.value + 1, 0).getDate();
+        console.log(firstOfMonth.getMonth());
         return React.createElement(
           'div',
           { className: 'r-calendar' },
           React.createElement(
             'div',
             { className: 'r-inner' },
-            React.createElement(Header, { monthNames: this.state.monthNamesFull, month: this.state.month + item.value, year: this.state.year }),
+            React.createElement(Header, { monthNames: this.state.monthNamesFull, month: firstOfMonth.getMonth(), year: firstOfMonth.getFullYear() }),
             React.createElement(WeekDays, { dayNames: this.state.dayNames, startDay: this.state.startDay, weekNumbers: this.state.weekNumbers }),
             React.createElement(MonthDates, { month: this.state.month + item.value, year: this.state.year, daysInMonth: daysInMonth, firstOfMonth: firstOfMonth, startDay: this.state.startDay, onSelect: this.selectDate, weekNumbers: this.state.weekNumbers, disablePast: this.state.disablePast, minDate: this.state.minDate, maxDate: this.state.maxDate })
           )
@@ -208,7 +204,7 @@ var MonthDates = React.createClass({
               );
             }
 
-            return React.createElement('div', { className: 'r-cell' });
+            return React.createElement('div', { className: 'r-cell r-disabled' });
           })
         );
       })
@@ -217,6 +213,6 @@ var MonthDates = React.createClass({
 });
 
 ReactDOM.render(React.createElement(Calendar, {
-  minDate: new Date(2017, 10, 10),
-  maxDate: new Date(2017, 11, 25)
+  minDate: new Date(2017, 11, 10),
+  maxDate: new Date(2019, 1, 25)
 }), document.getElementById("calendar"));

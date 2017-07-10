@@ -87,7 +87,7 @@
     flex-grow: 1;
 }
 .r-calendar .r-dates .r-cell{
-    background-color: #ffffff;
+    background-color: gray;
     border: solid 1px #ffffff;
 }
 .r-calendar .r-cell.r-date{
