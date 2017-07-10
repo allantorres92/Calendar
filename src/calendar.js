@@ -13,6 +13,7 @@ var Calendar = React.createClass({
     },
     getInitialState: function () {
         var date = new Date();
+        this.props.maxDate = new Date(this.props.minDate.getTime() + this.props.daysneeded * 86400000 );
         return {
             year: this.props.minDate.getFullYear(),
             month: this.props.minDate.getMonth(),
@@ -32,6 +33,8 @@ var Calendar = React.createClass({
       var minDate = this.state.minDate;
       var maxDate = this.state.maxDate;
       var months;
+
+      console.log(this.state);
 
       months = (maxDate.getFullYear() - minDate.getFullYear()) * 12;
       months -= minDate.getMonth() + 1;
@@ -194,8 +197,9 @@ var MonthDates = React.createClass({
 
 ReactDOM.render(
     React.createElement(Calendar, {
-      minDate: new Date(2017, 11, 10),
-      maxDate: new Date(2019, 1, 25),
+      daysneeded: decodeURIComponent((new RegExp('[?|&]days=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null,
+      country_code: decodeURIComponent((new RegExp('[?|&]country=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null,
+      minDate: new Date(decodeURIComponent((new RegExp('[?|&]startDate=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null)
     }),
     document.getElementById("calendar")
 );

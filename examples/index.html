@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>React Calendar</title>
-    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
-    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
-    <link href="calendar.css" rel="stylesheet">
-</head>
-<body>
-    <div id="calendar"></div>
-    <script src="../build/calendar.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="calendar.html">
+      Start Date:<br>
+      <input name="startDate" placeholder="Date" type="date" required>
+      <br>
+      Number of Days:<br>
+      <input name="days" placeholder="15" type="number" required>
+      <br>
+      Country Code:<br>
+      <input type="text" name="country" placeholder="US" required>
+      <br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
 </html>
